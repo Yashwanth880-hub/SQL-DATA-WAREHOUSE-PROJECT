@@ -1,116 +1,126 @@
-# Naming Conventions
+# **Naming Conventions**
 
 This document outlines the naming conventions used for schemas, tables, views, columns, and other objects in the data warehouse.
 
-## Table of Contents
+## **Table of Contents**
 
-1. General Principles
-2. Table Naming Conventions
+1. [General Principles](#general-principles)
+2. [Table Naming Conventions](#table-naming-conventions)
 
-   * Bronze Rules
-   * Silver Rules
-   * Gold Rules
-3. Column Naming Conventions
+   * [Bronze Rules](#bronze-rules)
+   * [Silver Rules](#silver-rules)
+   * [Gold Rules](#gold-rules)
+3. [Column Naming Conventions](#column-naming-conventions)
 
-   * Surrogate Keys
-   * Technical Columns
-4. Stored Procedure Naming Conventions
-
----
-
-## General Principles
-
-* Use snake_case with lowercase letters and underscores (_).
-* Use English for all object names.
-* Avoid SQL reserved words.
-
-## Table Naming Conventions
-
-### Bronze Rules
-
-Pattern:
-
-`<source_system>_<entity>`
-
-Examples:
-
-* crm_cust_info
-* crm_prd_info
-* crm_sales_details
-* erp_cust_az12
-* erp_loc_a101
-
-### Silver Rules
-
-Pattern:
-
-`<source_system>_<entity>`
-
-Examples:
-
-* crm_cust_info
-* crm_prd_info
-* crm_sales_details
-* erp_cust_az12
-* erp_loc_a101
-
-### Gold Rules
-
-Pattern:
-
-`<category>_<entity>`
-
-Examples:
-
-* dim_customers
-* dim_products
-* fact_sales
-
-#### Category Prefixes
-
-| Prefix  | Description     |
-| ------- | --------------- |
-| dim_    | Dimension table |
-| fact_   | Fact table      |
-| report_ | Reporting table |
+   * [Surrogate Keys](#surrogate-keys)
+   * [Technical Columns](#technical-columns)
+4. [Stored Procedure Naming Conventions](#stored-procedure-naming-conventions)
 
 ---
 
-## Column Naming Conventions
+## **General Principles**
 
-### Surrogate Keys
+* **Naming Conventions**: Use snake_case, with lowercase letters and underscores (`_`) to separate words.
+* **Language**: Use English for all names.
+* **Avoid Reserved Words**: Do not use SQL reserved words as object names.
 
-Pattern:
+## **Table Naming Conventions**
 
-`<entity>_key`
+### **Bronze Rules**
 
-Examples:
+* All names must start with the source system name, and table names must match their original names without renaming.
 
-* customer_key
-* product_key
+* **`<sourcesystem>_<entity>`**
 
-### Technical Columns
+  * `<sourcesystem>`: Name of the source system (e.g., `crm`, `erp`).
+  * `<entity>`: Exact table name from the source system.
+  * Examples:
 
-Pattern:
+    * `crm_cust_info` → Customer information from the CRM system.
+    * `crm_prd_info` → Product information from the CRM system.
+    * `crm_sales_details` → Sales transaction details from the CRM system.
+    * `erp_cust_az12` → Customer-related information from the ERP system.
+    * `erp_loc_a101` → Customer location information from the ERP system.
+    * `erp_px_cat_g1v2` → Product category information from the ERP system.
 
-`dwh_<column_name>`
+### **Silver Rules**
 
-Examples:
+* All names must start with the source system name, and table names must match their original names without renaming.
 
-* dwh_load_date
-* dwh_insert_date
-* dwh_update_date
+* **`<sourcesystem>_<entity>`**
 
----
+  * `<sourcesystem>`: Name of the source system (e.g., `crm`, `erp`).
+  * `<entity>`: Exact table name from the source system.
+  * Examples:
 
-## Stored Procedure Naming Conventions
+    * `crm_cust_info`
+    * `crm_prd_info`
+    * `crm_sales_details`
+    * `erp_cust_az12`
+    * `erp_loc_a101`
+    * `erp_px_cat_g1v2`
 
-Pattern:
+### **Gold Rules**
 
-`load_<layer>`
+* All names must use meaningful, business-aligned names for tables, starting with the category prefix.
 
-Examples:
+* **`<category>_<entity>`**
 
-* load_bronze
-* load_silver
-* load_gold
+  * `<category>`: Describes the role of the table, such as `dim` (dimension) or `fact` (fact table).
+  * `<entity>`: Descriptive name of the table aligned with the business domain.
+  * Examples:
+
+    * `dim_customers` → Dimension table for customer data.
+    * `dim_products` → Dimension table for product data.
+    * `fact_sales` → Fact table containing sales transactions.
+
+#### **Glossary of Category Patterns**
+
+| Pattern   | Meaning         | Example(s)                      |
+| --------- | --------------- | ------------------------------- |
+| `dim_`    | Dimension table | `dim_customers`, `dim_products` |
+| `fact_`   | Fact table      | `fact_sales`                    |
+| `report_` | Report table    | `report_sales_monthly`          |
+
+## **Column Naming Conventions**
+
+### **Surrogate Keys**
+
+* All primary keys in dimension tables must use the suffix `_key`.
+
+* **`<table_name>_key`**
+
+  * `<table_name>`: Refers to the name of the table or entity the key belongs to.
+  * `_key`: A suffix indicating that this column is a surrogate key.
+  * Examples:
+
+    * `customer_key` → Surrogate key in the `dim_customers` table.
+    * `product_key` → Surrogate key in the `dim_products` table.
+
+### **Technical Columns**
+
+* All technical columns must start with the prefix `dwh_`, followed by a descriptive name indicating the column's purpose.
+
+* **`dwh_<column_name>`**
+
+  * `dwh`: Prefix exclusively for system-generated metadata.
+  * `<column_name>`: Descriptive name indicating the column's purpose.
+  * Examples:
+
+    * `dwh_load_date` → Date when the record was loaded.
+    * `dwh_insert_date` → Date when the record was inserted.
+    * `dwh_update_date` → Date when the record was last updated.
+
+## **Stored Procedure Naming Conventions**
+
+* All stored procedures used for loading data must follow the naming pattern:
+
+* **`load_<layer>`**
+
+  * `<layer>`: Represents the layer being loaded, such as `bronze`, `silver`, or `gold`.
+
+  * Examples:
+
+    * `load_bronze` → Stored procedure for loading data into the Bronze layer.
+    * `load_silver` → Stored procedure for loading data into the Silver layer.
+    * `load_gold` → Stored procedure for loading data into the Gold layer.
