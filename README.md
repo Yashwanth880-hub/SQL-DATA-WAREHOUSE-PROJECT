@@ -2,19 +2,33 @@
 
 ## Overview
 
-This repository contains a Data Warehouse project developed as part of my Data Engineering and Analytics learning journey.
+This repository contains a complete SQL Data Warehouse project developed as part of my Data Engineering and Data Analytics learning journey.
 
-The project demonstrates:
+The project demonstrates end-to-end implementation of:
 
-- Data Warehousing
-- ETL Development
-- Medallion Architecture
-- Data Modeling
-- Data Cleaning & Transformation
-- Analytics-Ready Data Preparation
-- SQL Development Best Practices
+* Data Warehousing
+* ETL Development
+* Medallion Architecture (Bronze, Silver, Gold)
+* Data Modeling
+* Data Cleaning & Transformation
+* Data Quality Validation
+* Analytics-Ready Data Preparation
+* SQL Development Best Practices
 
-The goal is to transform raw business data into clean, structured, and business-ready datasets for reporting and analytics.
+The objective is to transform raw CRM and ERP data into clean, structured, and business-ready datasets for reporting and analytics.
+
+---
+
+## Key Features
+
+* Multi-source CRM and ERP data integration
+* Medallion Architecture (Bronze, Silver, Gold)
+* Data cleansing and standardization
+* Star schema dimensional modeling
+* Data quality validation scripts
+* Business-ready analytical views
+* Comprehensive project documentation
+* SQL Server implementation using T-SQL
 
 ---
 
@@ -24,17 +38,17 @@ The goal is to transform raw business data into clean, structured, and business-
 
 #### Objective
 
-Develop a modern Data Warehouse using SQL Server to consolidate data from multiple source systems and enable analytical reporting.
+Develop a modern Data Warehouse using SQL Server to consolidate data from multiple source systems and support analytical reporting.
 
 #### Specifications
 
-- Import data from CRM and ERP systems.
-- Store raw data in the Bronze Layer.
-- Clean and standardize data in the Silver Layer.
-- Create business-ready datasets in the Gold Layer.
-- Apply data quality checks and transformations.
-- Follow Data Warehouse best practices.
-- Document architecture and naming conventions.
+* Import data from CRM and ERP systems
+* Store raw data in the Bronze Layer
+* Clean and standardize data in the Silver Layer
+* Create business-ready datasets in the Gold Layer
+* Apply data quality checks and transformations
+* Follow Data Warehouse best practices
+* Document architecture and naming conventions
 
 ---
 
@@ -42,21 +56,21 @@ Develop a modern Data Warehouse using SQL Server to consolidate data from multip
 
 #### Objective
 
-Create reporting-ready datasets that can be consumed by BI and Analytics tools.
+Develop reporting-ready datasets for business intelligence and analytics.
 
 #### Expected Insights
 
-- Customer Analysis
-- Product Analysis
-- Sales Analysis
-- Business Performance Tracking
-- Trend Analysis
+* Customer Analysis
+* Product Analysis
+* Sales Analysis
+* Business Performance Tracking
+* Trend Analysis
 
 ---
 
 ## Architecture
 
-The project follows the Medallion Architecture pattern.
+The project follows the Medallion Architecture approach.
 
 ```text
 CRM / ERP Sources
@@ -85,78 +99,94 @@ Power BI / Analytics
 
 ---
 
+## Project Documentation
+
+### Data Architecture
+
+![Data Architecture](docs/data_architecture.png)
+
+### Data Flow
+
+![Data Flow](docs/data_flow.png)
+
+### Data Integration
+
+![Data Integration](docs/data_integration.png)
+
+### Data Model
+
+![Data Model](docs/data_model.png)
+
+---
+
 ## Data Warehouse Layers
 
 ### Bronze Layer
 
-Purpose:
+#### Purpose
 
-- Store raw source data.
-- Preserve original records.
-- Support debugging and traceability.
+* Store raw source data
+* Preserve original records
+* Support debugging and traceability
 
-Characteristics:
+#### Characteristics
 
-- Raw Data
-- Full Load
-- No Transformations
-- Source-Aligned Tables
+* Raw Data
+* Full Load Processing
+* No Transformations
+* Source-Aligned Tables
 
-Examples:
+#### Examples
 
 ```sql
-crm_customers
-erp_products
-erp_sales
+crm_cust_info
+crm_prd_info
+crm_sales_details
+
+erp_cust_az12
+erp_loc_a101
+erp_px_cat_g1v2
 ```
 
 ---
 
 ### Silver Layer
 
-Purpose:
+#### Purpose
 
-- Clean and standardize data.
-- Prepare data for analytics.
+* Clean and standardize source data
+* Prepare data for analytics
 
-Transformations:
+#### Transformations
 
-- Data Cleaning
-- Standardization
-- Normalization
-- Derived Columns
-- Data Enrichment
-
-Examples:
-
-```sql
-crm_customers_clean
-erp_products_clean
-erp_sales_clean
-```
+* Data Cleaning
+* Standardization
+* Data Validation
+* Data Enrichment
+* Derived Columns
 
 ---
 
 ### Gold Layer
 
-Purpose:
+#### Purpose
 
-- Provide business-ready datasets.
-- Support reporting and analytics.
+* Deliver business-ready datasets
+* Support reporting and analytics
 
-Transformations:
+#### Transformations
 
-- Data Integration
-- Aggregation
-- Business Rules
+* Data Integration
+* Business Rules
+* Aggregations
+* Dimensional Modeling
 
-Examples:
+#### Examples
 
 ```sql
 dim_customers
 dim_products
 fact_sales
-agg_sales_monthly
 ```
 
 ---
@@ -165,12 +195,12 @@ agg_sales_monthly
 
 ### General Rules
 
-- Use snake_case.
-- Use lowercase letters.
-- Use meaningful names.
-- Avoid SQL reserved keywords.
+* Use snake_case naming
+* Use lowercase letters
+* Use meaningful business names
+* Avoid SQL reserved keywords
 
-Example:
+#### Example
 
 ```sql
 customer_name
@@ -178,84 +208,64 @@ sales_amount
 order_date
 ```
 
----
-
 ### Bronze Layer Naming
-
-Pattern:
 
 ```sql
 <source_system>_<entity>
 ```
 
-Examples:
+#### Examples
 
 ```sql
-crm_customers
-crm_orders
-erp_products
-erp_sales
-```
+crm_cust_info
+crm_prd_info
+crm_sales_details
 
----
+erp_cust_az12
+erp_loc_a101
+erp_px_cat_g1v2
+```
 
 ### Gold Layer Naming
 
-Dimension Tables:
+#### Dimension Tables
 
 ```sql
 dim_customers
 dim_products
-dim_dates
 ```
 
-Fact Tables:
+#### Fact Tables
 
 ```sql
 fact_sales
-fact_orders
 ```
-
-Aggregate Tables:
-
-```sql
-agg_sales_monthly
-agg_customer_summary
-```
-
----
 
 ### Technical Columns
-
-Pattern:
 
 ```sql
 dwh_<column_name>
 ```
 
-Examples:
+#### Examples
 
 ```sql
 dwh_load_date
 dwh_insert_date
+dwh_update_date
 ```
 
----
-
 ### Surrogate Keys
-
-Pattern:
 
 ```sql
 <table_name>_key
 ```
 
-Examples:
+#### Examples
 
 ```sql
 customer_key
 product_key
-date_key
 ```
 
 ---
@@ -266,19 +276,30 @@ date_key
 SQL-DATA-WAREHOUSE-PROJECT
 │
 ├── datasets
-│   ├── crm
-│   └── erp
+│   ├── cust_info.csv
+│   ├── prd_info.csv
+│   ├── sales_details.csv
+│   ├── CUST_AZ12.csv
+│   ├── LOC_A101.csv
+│   └── PX_CAT_G1V2.csv
 │
 ├── docs
-│   ├── architecture
-│   └── naming_conventions
+│   ├── data_architecture.png
+│   ├── data_flow.png
+│   ├── data_integration.png
+│   ├── data_model.png
+│   ├── data_catalog.md
+│   └── naming_conventions.md
 │
 ├── scripts
 │   ├── bronze
 │   ├── silver
-│   └── gold
+│   ├── gold
+│   └── init_database.sql
 │
 ├── tests
+│   ├── quality_checks_silver.sql
+│   └── quality_checks_gold.sql
 │
 └── README.md
 ```
@@ -287,25 +308,44 @@ SQL-DATA-WAREHOUSE-PROJECT
 
 ## Technology Stack
 
-- SQL Server
-- T-SQL
-- Git
-- GitHub
-- Draw.io
-- CSV Files
-- Power BI (Planned)
+* SQL Server
+* T-SQL
+* Git
+* GitHub
+* Draw.io
+* CSV Files
+* Power BI (Planned)
 
 ---
 
+## Data Quality Checks
+
+The project includes automated validation scripts to ensure:
+
+* No duplicate business keys
+* No NULL values in critical columns
+* Consistent data formats
+* Referential integrity checks
+* Gold Layer validation checks
+
+Scripts are available in:
+
+```text
+tests/
+├── quality_checks_silver.sql
+└── quality_checks_gold.sql
+```
+
+---
 
 ## Future Improvements
 
-- Incremental Loading
-- Stored Procedure Automation
-- Data Quality Framework
-- Power BI Dashboard
-- Azure Data Factory Integration
-- Cloud Deployment
+* Incremental Loading
+* Stored Procedure Automation
+* Data Quality Framework
+* Power BI Dashboard Development
+* Azure Data Factory Integration
+* Cloud Deployment on Azure
 
 ---
 
@@ -313,14 +353,15 @@ SQL-DATA-WAREHOUSE-PROJECT
 
 Hi, I'm **Yashwanth Samineni**.
 
-I am a recent B.Tech graduate interested in:
+I am a recent B.Tech graduate passionate about:
 
-- Data Analytics
-- SQL Development
-- Data Warehousing
-- Business Intelligence
+* Data Analytics
+* SQL Development
+* Data Warehousing
+* Business Intelligence
+* Data Engineering
 
-This repository showcases my learning journey in Data Warehousing, SQL Development, and Analytics while building a Data Warehouse project using SQL Server.
+This repository showcases my practical learning journey in SQL, Data Warehousing, ETL Development, and Analytics using SQL Server.
 
 ---
 
